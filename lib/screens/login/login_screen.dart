@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whatspp/screens/otp/otp_screen.dart';
 import 'package:whatspp/widgets/uihelper.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -7,6 +8,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController phoneController = TextEditingController();
   String selectedCountry = "India";
 
   List<String> countries = ["America", "Africa", "Italy", "India", "Germany"];
@@ -38,23 +40,89 @@ class _LoginScreenState extends State<LoginScreen> {
             color: Color(0XFF00A884),
           ),
           SizedBox(height: 50),
-          DropdownButtonFormField(
-            items: countries.map((String country) {
-              return DropdownMenuItem(
-                child: Text(country.toString()),
-                value: country,
-              );
-            }).toList(),
-            onChanged: (value) {
-              setState(() {
-                selectedCountry = value!;
-              });
-            }, value: selectedCountry, decoration: InputDecoration(
-            enabledBorder: UnderlineInputBorder()
+          Padding(
+            padding: const EdgeInsets.only(left: 60, right: 60),
+            child: DropdownButtonFormField(
+              items: countries.map((String country) {
+                return DropdownMenuItem(
+                  child: Text(country.toString()),
+                  value: country,
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  selectedCountry = value!;
+                });
+              },
+              value: selectedCountry,
+              decoration: InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0XFF00A884)),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0XFF00A884)),
+                ),
+              ),
+            ),
           ),
+          SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [SizedBox(width: 40)],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 5),
+            child: TextField(
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                hintText: "+91",
+                border: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0XFF00A884)),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0XFF00A884)),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(width: 10),
+          SizedBox(
+            width: 200,
+            child: TextField(
+              keyboardType: TextInputType.number,
+              controller: phoneController,
+              decoration: InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0XFF00A884)),
+                ),
+              ),
+            ),
           ),
         ],
       ),
+      floatingActionButton: UiHelper.CustomButton(
+        callback: () {
+          login(phoneController.text.toString());
+        },
+        buttonname: "Agree and Continue",
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
+  }
+
+  login(String phoneNumber) {
+    if (phoneNumber == "") {
+      return ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Enter your phone Number"),
+          backgroundColor: Color(0XFF00A884),
+        ),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (countries) => OtpScreen(phoneNumber: phoneNumber,)),
+      );
+    }
   }
 }
