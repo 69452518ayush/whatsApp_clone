@@ -35,7 +35,7 @@ class UiHelper {
       text,
       style: TextStyle(
         fontSize: height,
-        color: color ?? Color(0XFF5E5E5E),
+        color: color ?? Colors.green,
         fontWeight: fontWeight,
       ),
     );
@@ -47,7 +47,7 @@ class UiHelper {
       width: 40,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Color(0XFFD9D9D9),
+        color: Color(0XFFD9D9D9)
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
